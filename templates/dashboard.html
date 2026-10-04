@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Dashboard — PocketSmart AI
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<section class="dashboard-head">
+
+    <div>
+
+        <span class="eyebrow">
+
+            YOUR WORKSPACE
+
+        </span>
+
+
+        <h1>
+
+            Hello,
+            {{ user.full_name }}.
+
+        </h1>
+
+
+        <p>
+
+            Choose a planner and turn
+            a budget into a practical plan.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<div class="grid three">
+
+
+    <a
+        class="card planner-card"
+        href="/planner/home"
+    >
+
+        <div class="icon">
+            ⌂
+        </div>
+
+        <h3>
+            Home Interior
+        </h3>
+
+        <p>
+            Rooms, furniture,
+            lighting and decor.
+        </p>
+
+        <span>
+            Open planner →
+        </span>
+
+    </a>
+
+
+    <a
+        class="card planner-card"
+        href="/planner/party"
+    >
+
+        <div class="icon">
+            ✦
+        </div>
+
+        <h3>
+            Party Planner
+        </h3>
+
+        <p>
+            Food, venue,
+            decoration and
+            event allocation.
+        </p>
+
+        <span>
+            Open planner →
+        </span>
+
+    </a>
+
+
+    <a
+        class="card planner-card"
+        href="/planner/jewelry"
+    >
+
+        <div class="icon">
+            ◇
+        </div>
+
+        <h3>
+            Jewelry Planner
+        </h3>
+
+        <p>
+            Occasion, style
+            and optional
+            outfit image.
+        </p>
+
+        <span>
+            Open planner →
+        </span>
+
+    </a>
+
+
+</div>
+
+
+<section class="section">
+
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            RECENT
+        </span>
+
+        <h2>
+            Recent plans
+        </h2>
+
+    </div>
+
+
+    <div
+        id="recent"
+        class="list-card"
+    >
+
+        Loading…
+
+    </div>
+
+
+</section>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+(async function() {
+
+    const result =
+        await api(
+            "/api/session-data"
+        );
+
+    const box =
+        document.getElementById(
+            "recent"
+        );
+
+
+    if (!result.ok) {
+
+        box.textContent =
+            "Could not load recent plans.";
+
+        return;
+    }
+
+
+    if (
+        !result.data.recent.length
+    ) {
+
+        box.innerHTML =
+            '<p class="muted">No recommendations yet. Start with a planner above.</p>';
+
+        return;
+    }
+
+
+    box.innerHTML =
+        result.data.recent
+            .map(function(item) {
+
+                return `
+                    <div class="history-row">
+
+                        <b>
+                            ${escapeHtml(
+                                item.planner_type
+                            )}
+                        </b>
+
+                        <span>
+                            ${escapeHtml(
+                                item.created_at
+                            )}
+                        </span>
+
+                        <a href="/history">
+                            View
+                        </a>
+
+                    </div>
+                `;
+
+            })
+            .join("");
+
+})();
+
+</script>
+
+{% endblock %}

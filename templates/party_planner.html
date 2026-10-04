@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Party Planner — PocketSmart AI
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<section class="section-heading">
+
+    <span class="eyebrow">
+        PARTY PLANNER
+    </span>
+
+
+    <h1>
+        Plan an event within budget
+    </h1>
+
+
+    <p>
+
+        Allocate your event budget
+        before you start comparing
+        vendors.
+
+    </p>
+
+</section>
+
+
+<form
+    id="partyForm"
+    class="planner-form"
+>
+
+
+    <div class="form-grid">
+
+
+        <label>
+
+            Budget
+
+            <input
+                type="number"
+                name="budget"
+                min="1"
+                step="100"
+                required
+                placeholder="30000"
+            >
+
+        </label>
+
+
+        <label>
+
+            Guests
+
+            <input
+                type="number"
+                name="guest_count"
+                min="1"
+                required
+                placeholder="30"
+            >
+
+        </label>
+
+
+        <label>
+
+            Currency
+
+            <input
+                name="currency"
+                value="INR"
+                maxlength="3"
+            >
+
+        </label>
+
+
+        <label>
+
+            Event type
+
+            <input
+                name="event_type"
+                value="Birthday"
+                required
+            >
+
+        </label>
+
+
+        <label>
+
+            Venue
+
+            <input
+                name="venue"
+                value="Community hall"
+            >
+
+        </label>
+
+
+        <label>
+
+            Location
+
+            <input
+                name="location"
+                value="Coimbatore"
+            >
+
+        </label>
+
+
+    </div>
+
+
+    <label>
+
+        Preferences
+
+        <small>
+            Comma separated
+        </small>
+
+
+        <input
+            name="preferences"
+            value="vegetarian food, simple decoration"
+        >
+
+    </label>
+
+
+    <button
+        class="button primary"
+        type="submit"
+    >
+
+        Generate Party Plan
+
+    </button>
+
+
+</form>
+
+
+<div id="results"></div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+document
+    .getElementById("partyForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const form =
+                new FormData(
+                    event.target
+                );
+
+
+            const payload = {
+
+                budget:
+                    Number(
+                        form.get(
+                            "budget"
+                        )
+                    ),
+
+                guest_count:
+                    Number(
+                        form.get(
+                            "guest_count"
+                        )
+                    ),
+
+                currency:
+                    form
+                        .get("currency")
+                        .toUpperCase(),
+
+                event_type:
+                    form.get(
+                        "event_type"
+                    ),
+
+                venue:
+                    form.get(
+                        "venue"
+                    ),
+
+                location:
+                    form.get(
+                        "location"
+                    ),
+
+                preferences:
+                    form
+                        .get(
+                            "preferences"
+                        )
+                        .split(",")
+                        .map(
+                            item =>
+                                item.trim()
+                        )
+                        .filter(Boolean),
+            };
+
+
+            const result =
+                await api(
+                    "/api/generate-party",
+                    "POST",
+                    payload
+                );
+
+
+            renderResult(result);
+
+        }
+    );
+
+</script>
+
+{% endblock %}

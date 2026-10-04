@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+PocketSmart AI — Smart Budget Planning
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<section class="hero">
+
+
+    <div>
+
+        <span class="eyebrow">
+
+            GENAI BUDGET ASSISTANT
+
+        </span>
+
+
+        <h1>
+
+            Plan smarter.
+            <br>
+            Spend with purpose.
+
+        </h1>
+
+
+        <p>
+
+            Get budget-aware ideas for
+            home interiors, parties and
+            jewelry, with optional AI
+            image understanding.
+
+        </p>
+
+
+        <div class="actions">
+
+            {% if user %}
+
+            <a
+                class="button primary"
+                href="/dashboard"
+            >
+                Open Dashboard
+            </a>
+
+            {% else %}
+
+            <a
+                class="button primary"
+                href="/register"
+            >
+                Create Account
+            </a>
+
+
+            <a
+                class="button secondary"
+                href="/login"
+            >
+                Sign In
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-card">
+
+        <div class="mini-label">
+
+            PLANNING SNAPSHOT
+
+        </div>
+
+
+        <strong>
+
+            Budget →
+            Allocation →
+            Recommendations
+
+        </strong>
+
+
+        <p>
+
+            Keep a contingency amount
+            and compare options before
+            buying.
+
+        </p>
+
+    </div>
+
+
+</section>
+
+
+<section class="section">
+
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            THREE PLANNERS
+        </span>
+
+
+        <h2>
+
+            One assistant for
+            everyday planning
+
+        </h2>
+
+    </div>
+
+
+    <div class="grid three">
+
+
+        <article class="card">
+
+            <div class="icon">
+                ⌂
+            </div>
+
+            <h3>
+                Home Interior
+            </h3>
+
+            <p>
+
+                Plan rooms, furniture,
+                lighting, storage and
+                decor around a defined
+                budget.
+
+            </p>
+
+
+            {% if user %}
+
+            <a href="/planner/home">
+
+                Plan a home →
+
+            </a>
+
+            {% endif %}
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="icon">
+                ✦
+            </div>
+
+            <h3>
+                Party Planner
+            </h3>
+
+            <p>
+
+                Split an event budget
+                across food, venue,
+                decoration,
+                entertainment and
+                contingency.
+
+            </p>
+
+
+            {% if user %}
+
+            <a href="/planner/party">
+
+                Plan a party →
+
+            </a>
+
+            {% endif %}
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="icon">
+                ◇
+            </div>
+
+            <h3>
+                Jewelry
+            </h3>
+
+            <p>
+
+                Explore occasion and
+                style-based jewelry ideas,
+                with optional outfit
+                image input.
+
+            </p>
+
+
+            {% if user %}
+
+            <a href="/planner/jewelry">
+
+                Plan jewelry →
+
+            </a>
+
+            {% endif %}
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Jewelry Planner — PocketSmart AI
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<section class="section-heading">
+
+    <span class="eyebrow">
+        JEWELRY PLANNER
+    </span>
+
+
+    <h1>
+        Match jewelry to your occasion
+    </h1>
+
+
+    <p>
+
+        Describe your outfit and
+        optionally upload a JPG,
+        PNG or WebP image.
+
+    </p>
+
+</section>
+
+
+<form
+    id="jewelryForm"
+    class="planner-form"
+    enctype="multipart/form-data"
+>
+
+
+    <div class="form-grid">
+
+
+        <label>
+
+            Budget
+
+            <input
+                type="number"
+                name="budget"
+                min="1"
+                step="100"
+                required
+                placeholder="5000"
+            >
+
+        </label>
+
+
+        <label>
+
+            Currency
+
+            <input
+                name="currency"
+                value="INR"
+                maxlength="3"
+            >
+
+        </label>
+
+
+        <label>
+
+            Occasion
+
+            <input
+                name="occasion"
+                value="Birthday"
+            >
+
+        </label>
+
+
+        <label>
+
+            Style
+
+            <input
+                name="style"
+                value="Elegant"
+            >
+
+        </label>
+
+
+    </div>
+
+
+    <label>
+
+        Outfit description
+
+        <textarea
+            name="outfit_description"
+            placeholder="Example: pastel blue dress with silver details"
+        ></textarea>
+
+    </label>
+
+
+    <label>
+
+        Outfit image
+
+        <input
+            type="file"
+            name="outfit_image"
+            accept="image/png,image/jpeg,image/webp"
+        >
+
+    </label>
+
+
+    <button
+        class="button primary"
+        type="submit"
+    >
+
+        Generate Jewelry Plan
+
+    </button>
+
+
+</form>
+
+
+<div id="results"></div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+document
+    .getElementById("jewelryForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const form =
+                new FormData(
+                    event.target
+                );
+
+
+            const result =
+                await api(
+                    "/api/generate-jewelry",
+                    "POST",
+                    form,
+                    true
+                );
+
+
+            renderResult(result);
+
+        }
+    );
+
+</script>
+
+{% endblock %}
